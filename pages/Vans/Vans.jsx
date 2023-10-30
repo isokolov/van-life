@@ -1,22 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 export default function Vans() {
   const [vans, setVans] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const getVans = async () => {
     const response = await fetch('/api/vans');
     const data = await response.json();
     setVans(data.vans);
+    console.log(searchParams.get('type'));
   };
   useEffect(() => {
     getVans();
     console.log(vans);
   }, []);
 
-  const vanElements = vans.map((van) => (
+  const typeFilter = searchParams.get('type');
+
+  const displayedVans = typeFilter
+    ? vans.filter((van) => van.type === typeFilter)
+    : vans;
+
+  const vanElements = displayedVans.map((van) => (
     <div key={van.id} className='van-tile'>
-      <Link to={`/vans/${van.id}`}>
+      <Link to={van.id}>
         <img src={van.imageUrl} />
         <div className='van-info'>
           <h3>{van.name}</h3>
@@ -33,6 +41,44 @@ export default function Vans() {
   return (
     <div className='van-list-container'>
       <h1>Explore our van options</h1>
+      <div className='van-list-filter-buttons'>
+        <button
+          className='van-type simple'
+          onClick={() => setSearchParams({ type: 'simple' })}
+        >
+          Simple
+        </button>
+        <button
+          className='van-type luxury'
+          onClick={() => setSearchParams({ type: 'luxury' })}
+        >
+          Luxury
+        </button>
+        <button
+          className='van-type rugged'
+          onClick={() => setSearchParams({ type: 'rugged' })}
+        >
+          Rugged
+        </button>
+        <button
+          className='van-type clear-filters'
+          onClick={() => setSearchParams({})}
+        >
+          Clear filter
+        </button>
+        {/* <Link to='?type=simple' className='van-type simple'>
+          Simple
+        </Link>
+        <Link to='?type=luxury' className='van-type luxury'>
+          Luxury
+        </Link>
+        <Link to='?type=rugged' className='van-type rugged'>
+          Rugged
+        </Link>
+        <Link to='.' className='van-type clear-filters'>
+          Clear filter
+        </Link> */}
+      </div>
       <div className='van-list'>{vanElements}</div>
     </div>
   );
