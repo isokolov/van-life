@@ -13,6 +13,8 @@ import HostVanPricing from './pages/Host/HostVanPricing';
 import HostVans from './pages/Host/HostVans';
 import Income from './pages/Host/Income';
 import Reviews from './pages/Host/Reviews';
+import Login from './pages/Login';
+import NotFound from './pages/NotFound';
 import VanDetail from './pages/Vans/VanDetails';
 import Vans from './pages/Vans/Vans';
 import './server';
@@ -26,6 +28,7 @@ function App() {
           <Route path='about' element={<About />} />
           <Route path='vans' element={<Vans />} />
           <Route path='vans/:id' element={<VanDetail />} />
+          <Route path='login' element={<Login />} />
           <Route path='host' element={<HostLayout />}>
             <Route index element={<Dashboard />} />
             <Route path='income' element={<Income />} />
@@ -38,6 +41,7 @@ function App() {
             </Route>
             <Route path='reviews' element={<Reviews />} />
           </Route>
+          <Route path='*' element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>
