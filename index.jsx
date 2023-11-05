@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AuthComponent from './components/AuthRequired';
 import Layout from './components/Layout';
 import About from './pages/About';
 import Home from './pages/Home';
@@ -29,17 +30,20 @@ function App() {
           <Route path='vans' element={<Vans />} />
           <Route path='vans/:id' element={<VanDetail />} />
           <Route path='login' element={<Login />} />
-          <Route path='host' element={<HostLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path='income' element={<Income />} />
 
-            <Route path='vans' index element={<HostVans />} />
-            <Route path='vans/:id' element={<HostVanDetail />}>
-              <Route index element={<HostVanInfo />} />
-              <Route path='pricing' element={<HostVanPricing />} />
-              <Route path='photos' element={<HostVanPhotos />} />
+          <Route element={<AuthComponent />}>
+            <Route path='host' element={<HostLayout />}>
+              <Route index element={<Dashboard />} />
+              <Route path='income' element={<Income />} />
+
+              <Route path='vans' index element={<HostVans />} />
+              <Route path='vans/:id' element={<HostVanDetail />}>
+                <Route index element={<HostVanInfo />} />
+                <Route path='pricing' element={<HostVanPricing />} />
+                <Route path='photos' element={<HostVanPhotos />} />
+              </Route>
+              <Route path='reviews' element={<Reviews />} />
             </Route>
-            <Route path='reviews' element={<Reviews />} />
           </Route>
           <Route path='*' element={<NotFound />} />
         </Route>
